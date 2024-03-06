@@ -1,0 +1,22 @@
+version: '3.8'
+
+networks:
+  test_developer:
+    driver: bridge
+
+volumes:
+  test_developer_data:
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile 
+    container_name: ${FRONTEND_CONTAINER_NAME}
+    restart: always
+    ports:
+      - "${FRONTEND_PORT_HOST}:${FRONTEND_PORT_CONTAINER}"
+    # depends_on:
+    #   - ${BACKEND_CONTAINER_NAME}
+    networks:
+      - test_developer

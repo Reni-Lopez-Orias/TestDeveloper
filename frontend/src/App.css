@@ -1,42 +1,83 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.container {
+  padding: 30px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Estilos para los inputs */
+input {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Estilos para los inputs cuando están enfocados */
+input:focus {
+  outline: none;
+  border-color: #1976d2; /* Cambiar el color del borde al enfocar */
 }
 
-.card {
-  padding: 2em;
+/* Estilos para los inputs desactivados */
+input:disabled {
+  background-color: #f0f0f0; /* Cambiar el color de fondo para indicar que está desactivado */
+  color: #666; /* Cambiar el color del texto para que sea menos prominente */
 }
 
-.read-the-docs {
-  color: #888;
+/* Estilos para los inputs de tipo checkbox */
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+/* Estilos para las etiquetas de los inputs */
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Estilos para los botones */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1976d2;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Estilos para los botones al pasar el mouse */
+button:hover {
+  background-color: #155fa0; /* Cambiar el color de fondo al pasar el mouse */
+}
+
+textarea{
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+/* Estilos para los inputs cuando están enfocados */
+textarea:focus {
+  outline: none;
+  border-color: #1976d2; /* Cambiar el color del borde al enfocar */
+}
+
+/* Estilos para los inputs desactivados */
+textarea:disabled {
+  background-color: #f0f0f0; /* Cambiar el color de fondo para indicar que está desactivado */
+  color: #666; /* Cambiar el color del texto para que sea menos prominente */
+}
+
+textarea {
+  font-family: inherit; /* hereda la fuente del elemento padre */
+  font-size: inherit; /* hereda el tamaño de fuente del elemento padre */
+  /* Otros estilos de textarea */
 }

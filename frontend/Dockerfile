@@ -13,7 +13,7 @@ RUN npm i
 COPY . .
 
 # # expone el puerto
-EXPOSE 3000
+EXPOSE 3001
 
 # #ejecuta la aplicacion
 CMD [ "npm", "run", "dev" ]
