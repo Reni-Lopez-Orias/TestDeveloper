@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 //mui
 import Box from '@mui/material/Box';
@@ -8,65 +8,103 @@ import TableRow from '@mui/material/TableRow';
 import TableHead from '@mui/material/TableHead';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
-import Pagination from '@mui/material/Pagination';
+import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TableContainer from '@mui/material/TableContainer';
 
-import Swal  from "sweetalert2";
+//utils
+import { formatDate } from '../../utils/util';
 
-export const CustomTable = ({ todos }) => {
+//context
+import { useData } from '../../context/contextData';
 
-    const handleDelete = (todo) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                console.log(todo);
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "Task has been deleted.",
-                    icon: "success"
-                });
-            }
-        });
+//servies
+import { deleteTask, getAllTasks, updateTask } from '../../services/tasks.service';
+import { errorNotificacion, notificationDelete, successNotification } from '../../services/notifications.service';
+
+export const CustomTable = () => {
+
+    const { data, setData } = useData();
+
+    useEffect(() => {
+        getTodos();
+    }, []);
+
+    const getTodos = async () => {
+        const todosResponse = await getAllTasks();
+
+        if (!todosResponse.error)
+            setData({ ...data, todos: todosResponse.data })
+        else
+            errorNotificacion(todosResponse.message);
     }
+
+    const handleUpdate = async (task, check) => {
+        task.completed = check;
+
+        const todosResponse = await updateTask(task);
+        if (!todosResponse.error)
+            successNotification(todosResponse.message);
+        else
+            errorNotificacion(todosResponse.message);
+
+    }
+
+    const handleDelete = async (id_todo, index) => {
+        if (await notificationDelete()) {
+
+            const todosResponse = await deleteTask(id_todo);
+            if (!todosResponse.error) {
+
+                data.todos.splice(index, 1);
+                successNotification(todosResponse.message);
+                setData({ ...data, todos: data.todos });
+
+            }
+            else
+                errorNotificacion(todosResponse.message);
+        }
+
+    }
+    console.log(data?.todos);
     return (
         <div>
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Title</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Created At</TableCell>
-                            <TableCell>Completed</TableCell>
-                            <TableCell>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {todos.map((todo, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{todo.title}</TableCell>
-                                <TableCell>{todo.description}</TableCell>
-                                <TableCell>{todo.created_at.toLocaleDateString()}</TableCell>
-                                <TableCell><input type="checkbox" defaultChecked={todo.completed} /></TableCell>
-                                <TableCell><DeleteIcon onClick={() => handleDelete(todo)} sx={{ cursor: 'pointer' }} /></TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
 
-                </Table>
-            </TableContainer>
+            {
+                data?.todos.length !== 0 ?
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Title</TableCell>
+                                    <TableCell>Description</TableCell>
+                                    <TableCell>Created At</TableCell>
+                                    <TableCell>Completed</TableCell>
+                                    <TableCell>Action</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {data.todos.map((todo, index) => (
+                                    <TableRow key={todo.id}>
+                                        <TableCell className="text-capitalize">{todo.title}</TableCell>
+                                        <TableCell className="text-capitalize">{todo.description}</TableCell>
+                                        <TableCell>{formatDate(todo.created_at)}</TableCell>
+                                        <TableCell><input type="checkbox" onClick={() => handleUpdate(todo, !todo.completed)} defaultChecked={todo.completed} /></TableCell>
+                                        <TableCell><DeleteIcon onClick={() => handleDelete(todo.id, index)} sx={{ cursor: 'pointer' }} /></TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
 
-            <Box sx={{ mt: 1 }}>
-                <Pagination />
-            </Box>
+                        </Table>
+                    </TableContainer>
+                    :
+                    <Box sx={{ textAlign: 'center' }}>
+                        <Typography sx={{ mt: 5 }} variant='h4'>
+                            There are no records to show!
+                        </Typography>
+                    </Box>
+
+            }
 
         </div>
     );

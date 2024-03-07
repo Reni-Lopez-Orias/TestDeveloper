@@ -19,27 +19,6 @@ import { useData } from '../../context/contextData';
 import { firebaseApp } from '../../firebase/firebase';
 import { getAuth, signOut } from 'firebase/auth';
 
-const todos = [
-  {
-    title: 'test',
-    description: 'description',
-    completed: true,
-    created_at: new Date()
-  },
-  {
-    title: 'test',
-    description: 'description',
-    completed: false,
-    created_at: new Date()
-  },
-  {
-    title: 'test',
-    description: 'description',
-    completed: true,
-    created_at: new Date()
-  }
-]
-
 const resetContext = {
   isAuth: false,
   user: null,
@@ -60,7 +39,7 @@ export const TodosPages = () => {
     setData(resetContext);
     sessionStorage.clear();
   }
-  
+
   return (
     <Box className='container'>
 
@@ -79,7 +58,7 @@ export const TodosPages = () => {
         <Button onClick={() => setData({ ...data, openModal: true })} variant="contained" color='success' sx={{ borderRadius: '16px' }}>New <AddIcon /></Button>
       </Box>
 
-      <CustomTable todos={todos} />
+      <CustomTable />
 
     </Box>
   )

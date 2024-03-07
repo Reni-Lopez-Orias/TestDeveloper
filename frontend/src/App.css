@@ -81,3 +81,7 @@ textarea {
   font-size: inherit; /* hereda el tamaño de fuente del elemento padre */
   /* Otros estilos de textarea */
 }
+
+.text-capitalize {
+  text-transform: capitalize;
+}

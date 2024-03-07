@@ -8,6 +8,19 @@ volumes:
   test_developer_data:
 
 services:
+
+  backend:
+    build:
+      context: ./backend
+    container_name: ${BACKEND_CONTAINER_NAME}
+    command: python manage.py runserver 0.0.0.0:${BACKEND_PORT_HOST}
+    volumes:
+      - ./backend:/app
+    ports:
+      - "${BACKEND_PORT_HOST}:${BACKEND_PORT_CONTAINER}"
+    networks:
+      - test_developer
+
   frontend:
     build:
       context: ./frontend
@@ -16,7 +29,5 @@ services:
     restart: always
     ports:
       - "${FRONTEND_PORT_HOST}:${FRONTEND_PORT_CONTAINER}"
-    # depends_on:
-    #   - ${BACKEND_CONTAINER_NAME}
     networks:
       - test_developer

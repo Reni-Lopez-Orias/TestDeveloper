@@ -14,7 +14,9 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { useData } from '../../context/contextData'
 
 //services
+import { registerUser } from '../../services/users.service'
 import { signInApple, signInGoogle } from '../../services/firebase.service'
+import { successNotification } from '../../services/notifications.service'
 
 export const AuthPage = () => {
 
@@ -23,8 +25,16 @@ export const AuthPage = () => {
     const signInWithGoogle = async () => {
 
         const response = await signInGoogle();
-        if (response)
+        if (response){
+
             setData({ ...data, isAuth: true, user: response });
+
+            const userResponse = await registerUser(response);
+            if(userResponse.data){
+                successNotification(userResponse.message);
+            }
+
+        }
 
     }
 
