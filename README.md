@@ -13,6 +13,6 @@
     - Docker Desktop para Windows: Descarga e instala Docker Desktop desde el sitio web oficial de Docker: Docker Desktop para Windows.
     - Docker Compose: Docker Desktop incluye Docker Compose, por lo que no necesitas instalarlo por separado.
 
-## Ejecusión de proyecto
+## Ejecución de proyecto
 - Abra la carpeta donde clonó el repositorio
 - Ejecuta el siguiente comando: docker-compose -f docker-compose-dev.yml up -d
